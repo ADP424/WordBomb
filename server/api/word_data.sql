@@ -1,5 +1,6 @@
 DROP table if EXISTS Dictionaries CASCADE;
 DROP table if EXISTS LetterPrompts CASCADE;
+DROP table if EXISTS Game CASCADE;
 
 CREATE TABLE LetterPrompts (
 	name TEXT PRIMARY KEY NOT NULL,

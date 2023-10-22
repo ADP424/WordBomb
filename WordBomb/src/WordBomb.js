@@ -1,15 +1,38 @@
 import React from 'react';
-import './Nutrikit.css';
+import './WordBomb.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Button, Progress, Card, CardHeader, CardSubtitle, CardBody } from 'reactstrap';
 
-class Nutrikit extends React.Component {
+class WordBomb extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dictionaries: null,
-      letter_prompts: null
+      letterPrompts: null,
+      selectedDictionary: null,
+      usedWords: null,
+      players: [],
+      lives: []
     };
+  }
+
+  onButtonClick = () => {
+    let newUsedWords = this.state.usedWords
+    newUsedWords.push('Lato')
+    this.setState({usedWords: newUsedWords})
+    
+    let formBody = {'Dictionary': this.state.selectedDictionary, 'Used Words': this.state.usedWords, 
+                    'Players': this.state.players, 'Lives': this.state.lives}
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formBody)
+    };
+    fetch('http://localhost:5000/game', requestOptions)
+        .then(response => response.json());
   }
 
   updateDictionaries = (apiResponse) => {
@@ -17,7 +40,14 @@ class Nutrikit extends React.Component {
   }
 
   updateLetterPrompts = (apiResponse) => {
-    this.setState({letter_prompts: apiResponse})
+    this.setState({letterPrompts: apiResponse})
+  }
+  
+  updateGameInfo = (apiResponse) => {
+    this.setState({selectedDictionary: apiResponse[1]})
+    this.setState({usedWords: apiResponse[2]})
+    this.setState({players: apiResponse[3]})
+    this.setState({lives: apiResponse[4]})
   }
 
   fetchData = () => {
@@ -64,8 +94,32 @@ class Nutrikit extends React.Component {
             } )
   }
 
+  fetchGameInfo = () => {
+    fetch('http://localhost:5000/game')
+    .then(
+        (response) => {
+            if (response.status === 200) {
+              return (response.json()) ;
+            }
+            else {
+                console.log("HTTP error:" + response.status + ":" +  response.statusText);
+                return ([ ["status ", response.status]]);
+            }
+        }
+        )
+    .then ((jsonOutput) => {
+                this.updateGameInfo(jsonOutput);
+            }
+          )
+    .catch((error) => {
+                console.log(error);
+                this.updateGameInfo(null);
+            } )
+  }
+
   componentDidMount() {
     this.fetchData();
+    this.fetchGameInfo();
   }
 
   render() {
@@ -89,7 +143,11 @@ class Nutrikit extends React.Component {
 
         <Container className="Game">
           <Row sm={12} md={12} lg={12}>
-                    
+            <Button
+              onClick={this.onButtonClick}
+            >
+              {this.state.usedWords}
+            </Button>
           </Row>
   
           <Row>
@@ -105,4 +163,4 @@ class Nutrikit extends React.Component {
   }
 }
 
-export default Nutrikit;
+export default WordBomb;
