@@ -1,0 +1,102 @@
+p {
+    font-family: "Segoe UI";
+}
+
+label {
+    font-family: "Segoe UI";
+    display: inline-block;
+    font-size: 20px;
+}
+    
+textarea {
+    font-family: "Segoe UI";
+}
+
+body {
+    background-color: #c9ccca;
+}
+
+h1 {
+    font-family: Verdana; 
+    text-align: center; 
+    size: 36;
+}
+
+h2 {
+    font-family: Verdana; 
+    text-align: center;
+}
+
+form {
+    width: 5%;
+    text-align: left;
+    display: block
+}
+
+textarea {
+    width:200px;
+}
+
+.CategoriesHolder {
+    vertical-align: middle;
+}
+
+.CategoriesLabel {
+    position: relative;
+    text-align: center;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+
+.MenuItemsLabel {
+    position: relative;
+    text-align: center;
+    left: 30%;
+    transform: translate(-50%, -50%);
+}
+
+.SelectedItemsLabel {
+    position: relative;
+    text-align: center;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+
+.Categories {
+    position: relative;
+    width: 100px; 
+    text-align: left;
+    left: 20%;
+    transform: translate(-47%, -750%);
+}
+
+.MenuItems {
+    position: relative;
+    width: 200px; 
+    text-align: left;
+    left: 30%;
+    transform: translate(-30%, -85%);
+}
+
+.AddRemoveButton {
+    position: relative;
+    text-align: left;
+    left: 30%;
+    transform: translate(50%, -600%);
+}
+
+.SelectedItems {
+    position: relative;
+    width: 200px; 
+    text-align: left;
+    left: 60%;
+    transform: translate(-100%, 0%);
+}
+
+.Calories {
+    position: relative;
+    width: 200px;
+    text-align: left;
+    left: 60%;
+    transform: translate(75%, 0%);
+}

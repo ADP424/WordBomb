@@ -1,0 +1,65 @@
+html {
+  background-color: #d1d1d1;
+}
+
+.Banner {
+  text-align: center;
+  background-color: #8a8c8b;
+}
+
+.Game {
+  text-align: center;
+  background-color: #d1d1d1;
+}
+
+.Background {
+  text-align: center;
+  background-color: #d1d1d1;
+}
+
+.SelectedItemsCard {
+  text-align: center;
+}
+
+.Categories {
+  width: 100px; 
+  text-align: left;
+  background-color: #78D569;
+}
+
+.MenuItems {
+  width: 150px; 
+  text-align: left;
+  background-color: #78D569;
+}
+
+.MenuItemNutritionDisplayer {
+  width: 150px; 
+  text-align: left;
+  resize: none;
+  background-color: #CBDFBE;
+}
+
+.SelectedItems {
+  width: 150px;
+  text-align: left;
+  background-color: #78D569;
+}
+
+.LowQuantity {
+  color: #98EDAF;
+}
+
+.MediumQuantity {
+  color: #FDBD42;
+}
+
+.HighQuantity {
+  color: #FD5342;
+}
+
+input {
+  size-adjust: relative;
+  width: 50%;
+  height: 10%;
+}
