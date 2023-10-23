@@ -13,7 +13,7 @@ class ChatBox extends Component {
   }
 
   handleSend = (chatMsg) => {
-    this.props.webrtc.shout('chat', [this.state.name, chatMsg]);
+    this.props.webrtc.shout('chat', [this.props.name, chatMsg]);
     this.props.onSend(chatMsg);
 
     clearInterval(this.interval);
