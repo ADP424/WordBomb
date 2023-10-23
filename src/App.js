@@ -25,7 +25,9 @@ class App extends Component {
   join = (webrtc) => webrtc.joinRoom('wordbombers-demo');
 
   handleCreatedPeer = (webrtc, peer) => {
-    webrtc.shout('new peer joined', this.state);
+    if (this.state.name != '') {
+      webrtc.shout('new peer joined', this.state);
+    }
     this.addChat('GOD', `Peer-${peer.id.substring(0, 5)} has connected 0_0`, true);
   }
 
