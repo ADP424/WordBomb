@@ -32,7 +32,7 @@ class WordBomb extends React.Component {
       body: JSON.stringify(formBody)
     };
     fetch('http://localhost:5000/game', requestOptions)
-        .then(response => response.json());
+        .then(response => response.json())
   }
 
   updateDictionaries = (apiResponse) => {
@@ -152,7 +152,12 @@ class WordBomb extends React.Component {
   
           <Row>
             <Col sm={12} md={6} lg={4}>
-              
+
+            </Col>
+            <Col sm={12} md={6} lg={4}>
+              <CardBody className="text-end">
+                <input type="text" onChange={(event) => (this.setState({calorieGoal: event.target.value}))}/><br></br>
+              </CardBody>
             </Col>
   
           </Row>
