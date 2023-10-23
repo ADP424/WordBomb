@@ -7,6 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      currentPlayer: '',
+
       chatLog: [],
       options: {
         debug: true,
@@ -18,17 +21,20 @@ class App extends Component {
   join = (webrtc) => webrtc.joinRoom('wordbombers-demo');
 
   handleCreatedPeer = (webrtc, peer) => {
-    this.addChat('Player-${peer.id.substring(0, 5)} joined the room!', ' ', true);
+    this.addChat(`Player-${peer.id.substring(0, 5)} joined the room!`, ' ', true);
   }
 
   handleRemovedPeer = (webrtc, peer) => {
-    this.addChat('Player-${peer.id.substring(0, 5)} left the room :(', ' ', true);
+    this.addChat(`Player-${peer.id.substring(0, 5)} left the room :(`, ' ', true);
   }
   
   handlePeerData = (webrtc, type, payload, peer) => {
     switch(type) {
       case 'chat':
-        this.addChat('Player-${peer.id.substring(0, 5)}', payload);
+        this.addChat(payload[0], payload[1]);
+        break;
+      case 'add player':
+        this.addChat(`Player-${peer.id.substring(0, 5)}`, payload);
         break;
       default:
         return;
@@ -43,22 +49,37 @@ class App extends Component {
       alert
     })});
   }
+
+  handleNameSet = (name) => {
+    this.setState({ name: name });
+    if (this.state.currentPlayer == '') {
+      this.setState({currentPlayer: name})
+    }
+
+    this.setState({ inputMsg: '' });
+  }
   
   render() {
     const { chatLog, options } = this.state;
+    
     return (
       <div className="App">
         <LioWebRTC
-            options={options}
-            onReady={this.join}
-            onCreatedPeer={this.handleCreatedPeer}
-            onRemovedPeer={this.handleRemovedPeer}
-            onReceivedPeerData={this.handlePeerData}
-          >
+          options={options}
+          onReady={this.join}
+          onCreatedPeer={this.handleCreatedPeer}
+          onRemovedPeer={this.handleRemovedPeer}
+          onReceivedPeerData={this.handlePeerData}
+        >
+
           <ChatBox
             chatLog={chatLog}
-            onSend={(msg) => msg && this.addChat('Me', msg)}
+            onSend={(msg) => msg && this.addChat(this.state.name, msg)}
+            handleNameSet={this.handleNameSet}
+            currentPlayer={this.state.currentPlayer}
+            name={this.state.name}
           />
+
         </LioWebRTC>
       </div>
     );
