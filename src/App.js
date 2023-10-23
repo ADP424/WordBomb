@@ -25,11 +25,11 @@ class App extends Component {
 
   handleCreatedPeer = (webrtc, peer) => {
     webrtc.shout('new peer joined', this.state);
-    this.addChat(`Peer-${peer.id.substring(0, 5)} has connected 0_0`, ' ', true);
+    this.addChat('GOD', `Peer-${peer.id.substring(0, 5)} has connected 0_0`, true);
   }
 
   handleRemovedPeer = (webrtc, peer) => {
-    this.addChat(`Peer-${peer.id.substring(0, 5)} has disconnected :(`, ' ', true);
+    this.addChat('GOD', `Peer-${peer.id.substring(0, 5)} has disconnected :(`, true);
   }
   
   addChat = (name, message, alert = false) => {
@@ -48,7 +48,7 @@ class App extends Component {
     newPlayers[name] = [3]
     this.setState({players: newPlayers})
 
-    webrtc.shout('new player joined', this.state.players)
+    webrtc.shout('new player joined', [name, this.state.players])
 
     if (this.state.currentPlayer == '') {
       this.setState({currentPlayer: name})
@@ -58,18 +58,19 @@ class App extends Component {
   }
 
   handlePeerData = (webrtc, type, payload, peer) => {
-    console.log(this.state)
     switch(type) {
       case 'chat':
         this.addChat(payload[0], payload[1]);
         break;
       case 'new peer joined':
+        console.log("NEW PEER JOINED HUNGA AMUNGA !!!!!!!!!!!!!!!!!!!!!!!!")
         this.setState({currentPlayer: payload.currentPlayer})
         this.setState({players: payload.players})
         this.setState({chatLog: payload.chatLog})
         break;
       case 'new player joined':
-        this.setState({players: payload})
+        this.setState({players: payload[1]})
+        this.addChat('GOD', `${payload[0]} has joined!`, true);
         break;
       default:
         return;
