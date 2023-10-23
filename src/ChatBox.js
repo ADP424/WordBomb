@@ -49,6 +49,7 @@ class ChatBox extends Component {
     return this.props.chatLog.map((item) => (
       <div className="chat" key={`chat-${item.name}-${item.timestamp}`}>
         <b className="name" style={{ color: 'grey' }}>{item.name}:</b> <span className="msg">{item.message}</span>
+        <br></br>
       </div>
     ));
   }
@@ -78,7 +79,7 @@ class ChatBox extends Component {
             <h1 className="title">Current Player: {this.props.currentPlayer}</h1>
             <hr />
           </div>
-          <div className="bombBox" ref={(div) => this.chatBox = div}>
+          <div className="bombBox">
             <div className="circle">
               <p className="prompt">LATO</p>
               <p className="timer">{this.state.currentTimer}</p>

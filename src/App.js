@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LioWebRTC } from 'react-liowebrtc';
 import './App.css';
 import ChatBox from './ChatBox';
+import PlayerSidebar from './PlayerSidebar';
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class App extends Component {
     this.state = {
       name: '',
       currentPlayer: '',
-      players: {},
+      players: [],
 
       defaultLives: 3,
 
@@ -44,9 +45,10 @@ class App extends Component {
   handleNameSet = (webrtc, name) => {
     this.setState({ name: name })
 
-    let newPlayers = this.state.players
-    newPlayers[name] = [3]
-    this.setState({players: newPlayers})
+    this.setState({ players: this.state.players.concat({
+      name,
+      lives: 3
+    })});
 
     webrtc.shout('new player joined', [name, this.state.players])
 
@@ -69,6 +71,7 @@ class App extends Component {
         this.setState({chatLog: payload.chatLog})
         break;
       case 'new player joined':
+        console.log("NEW PLAYER JOINED AAAAAAAAAAAAAAAAA PLEASE SHOW UP")
         this.setState({players: payload[1]})
         this.addChat('GOD', `${payload[0]} has joined!`, true);
         break;
@@ -96,6 +99,11 @@ class App extends Component {
             handleNameSet={this.handleNameSet}
             currentPlayer={this.state.currentPlayer}
             name={this.state.name}
+          />
+
+          <PlayerSidebar
+            players={this.state.players}
+            currentPlayer={this.state.currentPlayer}
           />
 
         </LioWebRTC>
