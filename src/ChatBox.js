@@ -30,7 +30,7 @@ class ChatBox extends Component {
 
   handleNameSet = (evt) => {
     if (evt.keyCode === 13) {
-      this.props.handleNameSet(this.state.inputMsg);
+      this.props.handleNameSet(this.props.webrtc, this.state.inputMsg);
       this.setState({inputMsg: ''})
     }
   }

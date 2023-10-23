@@ -9,6 +9,9 @@ class App extends Component {
     this.state = {
       name: '',
       currentPlayer: '',
+      players: {},
+
+      defaultLives: 3,
 
       chatLog: [],
       options: {
@@ -21,24 +24,12 @@ class App extends Component {
   join = (webrtc) => webrtc.joinRoom('wordbombers-demo');
 
   handleCreatedPeer = (webrtc, peer) => {
-    this.addChat(`Player-${peer.id.substring(0, 5)} joined the room!`, ' ', true);
+    webrtc.shout('new peer joined', this.state);
+    this.addChat(`Peer-${peer.id.substring(0, 5)} has connected 0_0`, ' ', true);
   }
 
   handleRemovedPeer = (webrtc, peer) => {
-    this.addChat(`Player-${peer.id.substring(0, 5)} left the room :(`, ' ', true);
-  }
-  
-  handlePeerData = (webrtc, type, payload, peer) => {
-    switch(type) {
-      case 'chat':
-        this.addChat(payload[0], payload[1]);
-        break;
-      case 'add player':
-        this.addChat(`Player-${peer.id.substring(0, 5)}`, payload);
-        break;
-      default:
-        return;
-    };
+    this.addChat(`Peer-${peer.id.substring(0, 5)} has disconnected :(`, ' ', true);
   }
   
   addChat = (name, message, alert = false) => {
@@ -50,13 +41,39 @@ class App extends Component {
     })});
   }
 
-  handleNameSet = (name) => {
-    this.setState({ name: name });
+  handleNameSet = (webrtc, name) => {
+    this.setState({ name: name })
+
+    let newPlayers = this.state.players
+    newPlayers[name] = [3]
+    this.setState({players: newPlayers})
+
+    webrtc.shout('new player joined', this.state.players)
+
     if (this.state.currentPlayer == '') {
       this.setState({currentPlayer: name})
     }
 
     this.setState({ inputMsg: '' });
+  }
+
+  handlePeerData = (webrtc, type, payload, peer) => {
+    console.log(this.state)
+    switch(type) {
+      case 'chat':
+        this.addChat(payload[0], payload[1]);
+        break;
+      case 'new peer joined':
+        this.setState({currentPlayer: payload.currentPlayer})
+        this.setState({players: payload.players})
+        this.setState({chatLog: payload.chatLog})
+        break;
+      case 'new player joined':
+        this.setState({players: payload})
+        break;
+      default:
+        return;
+    };
   }
   
   render() {
